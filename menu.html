@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menu &amp; Prix — Canel Pâtisserie | Casablanca</title>
+<meta name="description" content="Découvrez toute la carte Canel : Cinnamon Rolls en 5 saveurs, Cheesecake, Apple Pie, Basboussa, Brownie et Cookie. Prix et détails.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & VARS ===== */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#F8F3EA;--cream-d:#EDE4D3;
+  --cin:#8B4513;--gold:#C9963B;--gold-l:#E8C77A;
+  --brown:#2C1506;--brown-m:#4A2208;--tmid:#6B3A1F;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Lato',sans-serif;background:var(--cream);color:var(--brown);overflow-x:hidden}
+
+/* ===== NAV (identique index) ===== */
+nav{position:fixed;top:0;width:100%;z-index:1000;padding:22px 6%;display:flex;justify-content:space-between;align-items:center;transition:all .4s}
+nav.scrolled{background:rgba(248,243,234,.97);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 2px 30px rgba(44,21,6,.08);padding:14px 6%}
+.logo{font-family:'Playfair Display',serif;font-size:1.85rem;font-weight:700;color:var(--cream);letter-spacing:4px;text-decoration:none;transition:color .4s}
+nav.scrolled .logo{color:var(--cin)}
+.nav-links{display:flex;gap:35px;list-style:none;align-items:center}
+.nav-links a{color:var(--cream);text-decoration:none;font-size:.82rem;letter-spacing:2px;text-transform:uppercase;font-weight:300;transition:color .3s}
+nav.scrolled .nav-links a{color:var(--brown)}
+.nav-links a:hover{color:var(--gold)}
+.nav-cta{background:var(--gold)!important;color:var(--brown)!important;padding:10px 24px!important;border-radius:30px;font-weight:700!important;letter-spacing:1px!important}
+.nav-cta:hover{background:var(--gold-l)!important;transform:translateY(-2px)}
+.burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:5px;z-index:1001}
+.burger span{width:25px;height:1.5px;background:var(--cream);display:block;transition:all .3s}
+nav.scrolled .burger span{background:var(--cin)}
+
+/* ===== PAGE HERO (banner) ===== */
+#page-hero{
+  padding:160px 6% 90px;
+  background:var(--brown);
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+#page-hero::before{
+  content:'';position:absolute;
+  width:700px;height:700px;
+  border:1px solid rgba(201,150,59,.1);
+  border-radius:50%;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+}
+#page-hero::after{
+  content:'';position:absolute;
+  width:950px;height:950px;
+  border:1px solid rgba(201,150,59,.05);
+  border-radius:50%;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+}
+.ph-eyebrow{color:var(--gold);font-size:.68rem;letter-spacing:6px;text-transform:uppercase;display:block;margin-bottom:14px;font-weight:300}
+.ph-title{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,6vw,5rem);color:var(--cream);font-weight:700;margin-bottom:14px;position:relative;z-index:1}
+.ph-sub{font-family:'Playfair Display',serif;font-style:italic;color:var(--gold-l);font-size:clamp(.9rem,2vw,1.15rem);position:relative;z-index:1}
+.ph-sep{width:50px;height:1px;background:var(--gold);margin:20px auto 0;position:relative;z-index:1}
+
+/* ===== SECTION HEADERS ===== */
+.s-tag{display:block;color:var(--gold);font-size:.68rem;letter-spacing:5px;text-transform:uppercase;margin-bottom:10px}
+.s-tit{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.5rem);font-weight:700;line-height:1.18}
+.s-bar{width:45px;height:2px;background:var(--gold);margin:14px auto}
+.s-hdr{text-align:center;margin-bottom:55px}
+
+/* ===== CINNAMON ROLLS SECTION ===== */
+#rolls{padding:100px 6%;background:var(--cream)}
+.rolls-intro{max-width:600px;margin:0 auto 55px;text-align:center}
+.rolls-intro p{font-size:.9rem;color:var(--tmid);line-height:1.9;font-weight:300}
+
+/* Horizontal scroll container for rolls */
+.rolls-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:18px;
+  max-width:1100px;
+  margin:0 auto;
+}
+.roll-card{
+  background:#fff;
+  border-radius:20px;
+  overflow:hidden;
+  text-align:center;
+  transition:transform .4s,box-shadow .4s;
+  cursor:pointer;
+  position:relative;
+}
+.roll-card:hover{transform:translateY(-8px);box-shadow:0 22px 55px rgba(44,21,6,.12)}
+.roll-img{
+  height:170px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:3rem;
+  position:relative;
+}
+.roll-label{
+  position:absolute;
+  bottom:0;left:0;right:0;
+  padding:8px;
+  background:linear-gradient(transparent,rgba(44,21,6,.5));
+  color:var(--cream);
+  font-size:.68rem;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  font-weight:700;
+}
+.roll-info{padding:16px 14px 20px}
+.roll-name{font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;margin-bottom:5px;line-height:1.2}
+.roll-desc{font-size:.75rem;color:var(--tmid);line-height:1.6;font-weight:300;margin-bottom:10px}
+.roll-price{
+  display:inline-block;
+  background:var(--cream-d);
+  color:var(--cin);
+  font-family:'Playfair Display',serif;
+  font-weight:700;
+  font-size:.9rem;
+  padding:5px 16px;
+  border-radius:20px;
+}
+
+/* ===== INCONTOURNABLES SECTION ===== */
+#incontournables{padding:100px 6%;background:var(--cream-d)}
+.inco-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:22px;
+  max-width:900px;
+  margin:0 auto 22px;
+}
+.inco-featured{
+  grid-column:span 2;
+}
+.inco-card{
+  background:#fff;
+  border-radius:20px;
+  overflow:hidden;
+  display:flex;
+  align-items:stretch;
+  transition:transform .4s,box-shadow .4s;
+  cursor:pointer;
+}
+.inco-card:hover{transform:translateY(-6px);box-shadow:0 22px 55px rgba(44,21,6,.11)}
+.inco-featured .inco-card{flex-direction:row}
+.inco-img{
+  width:180px;
+  min-height:150px;
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:3.5rem;
+}
+.inco-featured .inco-img{width:220px;font-size:4.5rem}
+.inco-body{padding:22px;flex:1;display:flex;flex-direction:column;justify-content:center}
+.inco-name{font-family:'Playfair Display',serif;font-size:1.18rem;font-weight:600;margin-bottom:6px}
+.inco-desc{font-size:.82rem;color:var(--tmid);line-height:1.7;font-weight:300;margin-bottom:12px;flex:1}
+.inco-footer{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.inco-price{
+  font-family:'Playfair Display',serif;
+  font-weight:700;
+  font-size:1.15rem;
+  color:var(--gold);
+}
+.inco-badge{
+  font-size:.65rem;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  font-weight:700;
+  color:var(--cin);
+  border:1px solid var(--cin);
+  padding:3px 10px;
+  border-radius:15px;
+}
+/* Non-featured inco: vertical */
+.inco-grid .inco-card:not(.inco-featured .inco-card){flex-direction:column}
+.inco-grid > .inco-card:not(.inco-featured){flex-direction:column}
+.inco-grid > .inco-card:not(.inco-featured) .inco-img{width:100%;height:150px;font-size:3rem}
+
+/* ===== LIVRAISON INFO ===== */
+#livraison{background:var(--brown);padding:70px 6%;text-align:center}
+.liv-inner{max-width:700px;margin:0 auto}
+.liv-ico{font-size:2.5rem;margin-bottom:18px}
+.liv-tit{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--cream);margin-bottom:12px}
+.liv-txt{font-size:.88rem;color:rgba(248,243,234,.55);line-height:1.9;font-weight:300;margin-bottom:28px}
+.liv-pills{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-bottom:35px}
+.pill{
+  background:rgba(201,150,59,.12);
+  border:1px solid rgba(201,150,59,.3);
+  color:var(--gold-l);
+  padding:8px 20px;
+  border-radius:30px;
+  font-size:.78rem;
+  letter-spacing:1px;
+}
+.btn-g{background:var(--gold);color:var(--brown);padding:15px 36px;border-radius:50px;text-decoration:none;font-weight:700;font-size:.82rem;letter-spacing:2px;text-transform:uppercase;transition:all .3s;display:inline-block}
+.btn-g:hover{background:var(--gold-l);transform:translateY(-3px);box-shadow:0 15px 40px rgba(201,150,59,.3)}
+
+/* ===== FOOTER ===== */
+footer{background:var(--brown);padding:62px 6% 26px;border-top:1px solid rgba(248,243,234,.05)}
+.f-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:52px;margin-bottom:42px}
+.f-logo{font-family:'Playfair Display',serif;font-size:1.5rem;letter-spacing:3px;color:var(--cream);display:block;margin-bottom:13px;text-decoration:none;font-weight:700}
+.f-desc{font-size:.78rem;color:rgba(248,243,234,.36);line-height:1.9;font-weight:300}
+.f-htit{font-family:'Playfair Display',serif;color:var(--cream);font-size:.92rem;margin-bottom:17px;font-weight:600}
+.f-links{list-style:none;display:flex;flex-direction:column;gap:9px}
+.f-links a{color:rgba(248,243,234,.36);text-decoration:none;font-size:.78rem;font-weight:300;transition:color .3s}
+.f-links a:hover{color:var(--gold)}
+.f-bot{border-top:1px solid rgba(248,243,234,.07);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.f-copy{font-size:.7rem;color:rgba(248,243,234,.2)}
+
+/* ===== ANIMATIONS ===== */
+.reveal{opacity:0;transform:translateY(34px);transition:opacity .72s ease,transform .72s ease}
+.reveal.vis{opacity:1;transform:none}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:900px){
+  .rolls-grid{grid-template-columns:repeat(3,1fr)}
+  .inco-grid{grid-template-columns:1fr}
+  .inco-featured{grid-column:span 1}
+  .f-grid{grid-template-columns:1fr;gap:32px}
+}
+@media(max-width:768px){
+  .burger{display:flex}
+  .nav-links{position:fixed;top:0;right:-100%;height:100vh;width:275px;background:var(--brown);flex-direction:column;justify-content:center;align-items:center;transition:right .4s;gap:28px;z-index:999}
+  .nav-links.open{right:0}
+  .nav-links a{color:var(--cream)!important;font-size:.95rem}
+  .rolls-grid{grid-template-columns:repeat(2,1fr);gap:14px}
+  .inco-featured .inco-card{flex-direction:column}
+  .inco-featured .inco-img{width:100%;height:160px}
+  .f-bot{flex-direction:column;text-align:center}
+}
+@media(max-width:480px){
+  .rolls-grid{grid-template-columns:1fr 1fr}
+  .liv-pills{flex-direction:column;align-items:center}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav id="nav">
+  <a href="index.html" class="logo">CANEL</a>
+  <ul class="nav-links" id="navL">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="#rolls">Cinnamon Rolls</a></li>
+    <li><a href="#incontournables">Incontournables</a></li>
+    <li><a href="commander.html" class="nav-cta">Commander</a></li>
+  </ul>
+  <div class="burger" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ===== PAGE HERO ===== -->
+<section id="page-hero">
+  <span class="ph-eyebrow">✦ La Carte Complète ✦</span>
+  <h1 class="ph-title">Menu &amp; Prix</h1>
+  <p class="ph-sub">Toutes nos créations artisanales, à la pièce</p>
+  <div class="ph-sep"></div>
+</section>
+
+<!-- ===== CINNAMON ROLLS ===== -->
+<section id="rolls">
+  <div class="s-hdr reveal">
+    <span class="s-tag">✦ Notre Spécialité ✦</span>
+    <h2 class="s-tit">Cinnamon Rolls</h2>
+    <div class="s-bar"></div>
+  </div>
+  <div class="rolls-intro reveal">
+    <p>Nos cinnamon rolls sont préparés à la commande, dorés à la perfection et généreusement garnis. Choisissez votre saveur — ou commandez-les tous !</p>
+  </div>
+  <div class="rolls-grid">
+    <!-- Cream Cheese -->
+    <div class="roll-card reveal">
+      <div class="roll-img" style="background:linear-gradient(145deg,#F5E6D0,#C9963B)">
+        🌀
+        <div class="roll-label">Cream Cheese</div>
+      </div>
+      <div class="roll-info">
+        <h3 class="roll-name">Cream Cheese</h3>
+        <p class="roll-desc">Le classique fondant, nappé d'un glaçage cream cheese onctueux et doux.</p>
+        <span class="roll-price">15 MAD</span>
+      </div>
+    </div>
+    <!-- Caramel Beurre Salé -->
+    <div class="roll-card reveal" style="transition-delay:.08s">
+      <div class="roll-img" style="background:linear-gradient(145deg,#D4A843,#8B4513)">
+        🌀
+        <div class="roll-label">Caramel B.S.</div>
+      </div>
+      <div class="roll-info">
+        <h3 class="roll-name">Caramel Beurre Salé</h3>
+        <p class="roll-desc">L'alliance parfaite du sucré et du salé, nappée de caramel coulant artisanal.</p>
+        <span class="roll-price">15 MAD</span>
+      </div>
+    </div>
+    <!-- Chocolat -->
+    <div class="roll-card reveal" style="transition-delay:.16s">
+      <div class="roll-img" style="background:linear-gradient(145deg,#6B3A1F,#3D1C02)">
+        🌀
+        <div class="roll-label">Chocolat</div>
+      </div>
+      <div class="roll-info">
+        <h3 class="roll-name">Chocolat</h3>
+        <p class="roll-desc">Intensément chocolaté, nappé d'une ganache riche et veloutée pour les addicts.</p>
+        <span class="roll-price">14 MAD</span>
+      </div>
+    </div>
+    <!-- Vanille -->
+    <div class="roll-card reveal" style="transition-delay:.24s">
+      <div class="roll-img" style="background:linear-gradient(145deg,#FAF0DC,#E8C77A)">
+        🌀
+        <div class="roll-label">Vanille</div>
+      </div>
+      <div class="roll-info">
+        <h3 class="roll-name">Vanille</h3>
+        <p class="roll-desc">Délicat et parfumé, nappé d'un glaçage à la vanille pure pour une douceur absolue.</p>
+        <span class="roll-price">14 MAD</span>
+      </div>
+    </div>
+    <!-- Café -->
+    <div class="roll-card reveal" style="transition-delay:.32s">
+      <div class="roll-img" style="background:linear-gradient(145deg,#8B6914,#4A2208)">
+        🌀
+        <div class="roll-label">Café</div>
+      </div>
+      <div class="roll-info">
+        <h3 class="roll-name">Café</h3>
+        <p class="roll-desc">Pour les amateurs de café : un roll aromatisé au café avec une touche de chicorée.</p>
+        <span class="roll-price">14 MAD</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== INCONTOURNABLES ===== -->
+<section id="incontournables">
+  <div class="s-hdr reveal">
+    <span class="s-tag">✦ À Ne Pas Manquer ✦</span>
+    <h2 class="s-tit">Les Incontournables</h2>
+    <div class="s-bar"></div>
+  </div>
+
+  <!-- Featured : Cheesecake -->
+  <div class="inco-featured reveal" style="max-width:900px;margin:0 auto 22px">
+    <div class="inco-card">
+      <div class="inco-img" style="background:linear-gradient(135deg,#F5E6D0,#C9963B);width:220px;font-size:4.5rem">🍰</div>
+      <div class="inco-body">
+        <h3 class="inco-name">Cheesecake</h3>
+        <p class="inco-desc">Notre cheesecake est onctueux, crémeux et irrésistible. Une base biscuitée croustillante supporte un cœur fondant qui se laisse déguster lentement. Préparé avec du fromage frais de qualité supérieure et une touche de citron pour l'équilibre parfait.</p>
+        <div class="inco-footer">
+          <span class="inco-price">25 MAD</span>
+          <span class="inco-badge">Best-seller</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Grid 2x2 -->
+  <div class="inco-grid" style="max-width:900px;margin:0 auto">
+    <!-- Apple Pie -->
+    <div class="inco-card reveal">
+      <div class="inco-img" style="background:linear-gradient(135deg,#F2D9A2,#C9963B)">🍎</div>
+      <div class="inco-body">
+        <h3 class="inco-name">Apple Pie</h3>
+        <p class="inco-desc">La tarte aux pommes américaine dans toute sa splendeur. Pâte croustillante, garniture de pommes épicées à la cannelle, fondante et parfumée.</p>
+        <div class="inco-footer">
+          <span class="inco-price">20 MAD</span>
+        </div>
+      </div>
+    </div>
+    <!-- Basboussa -->
+    <div class="inco-card reveal" style="transition-delay:.1s">
+      <div class="inco-img" style="background:linear-gradient(135deg,#C9963B,#8B4513)">🌾</div>
+      <div class="inco-body">
+        <h3 class="inco-name">Basboussa</h3>
+        <p class="inco-desc">Notre hommage à la tradition orientale. Moelleuse, imbibée de sirop parfumé et généreuse — une fusion entre l'artisanat local et notre passion.</p>
+        <div class="inco-footer">
+          <span class="inco-price">15 MAD</span>
+        </div>
+      </div>
+    </div>
+    <!-- Brownie -->
+    <div class="inco-card reveal" style="transition-delay:.1s">
+      <div class="inco-img" style="background:linear-gradient(135deg,#3D1C02,#6B3A1F)">🍫</div>
+      <div class="inco-body">
+        <h3 class="inco-name">Brownie</h3>
+        <p class="inco-desc">Dense, intense et profondément chocolaté. Croûte légèrement craquante, cœur fondant et moelleux. La perfection en carrés.</p>
+        <div class="inco-footer">
+          <span class="inco-price">14 MAD</span>
+        </div>
+      </div>
+    </div>
+    <!-- Cookie -->
+    <div class="inco-card reveal" style="transition-delay:.2s">
+      <div class="inco-img" style="background:linear-gradient(135deg,#EDE4D3,#D4A843)">🍪</div>
+      <div class="inco-body">
+        <h3 class="inco-name">Cookie</h3>
+        <p class="inco-desc">Croustillant à l'extérieur, fondant à l'intérieur. Généreux en pépites de chocolat, réconfortant à chaque bouchée. Un grand classique.</p>
+        <div class="inco-footer">
+          <span class="inco-price">14 MAD</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LIVRAISON INFO ===== -->
+<section id="livraison">
+  <div class="liv-inner reveal">
+    <div class="liv-ico">🏍️</div>
+    <h2 class="liv-tit">Livraison à Casablanca</h2>
+    <p class="liv-txt">Toutes vos commandes sont préparées à la main après confirmation. Nous livrons dans tout Casablanca avec soin et rapidité. Retrait possible aussi.</p>
+    <div class="liv-pills">
+      <span class="pill">📦 Frais de livraison : 20 MAD</span>
+      <span class="pill">⏱️ Délai : selon disponibilité</span>
+      <span class="pill">🚗 Retrait : disponible</span>
+      <span class="pill">✅ Paiement à la livraison</span>
+    </div>
+    <a href="commander.html" class="btn-g">Passer une commande →</a>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="f-grid">
+    <div>
+      <a href="index.html" class="f-logo">CANEL</a>
+      <p class="f-desc">Pâtisserie artisanale américaine préparée avec amour à Casablanca. Chaque création est unique, faite sur commande, livrée avec soin.</p>
+    </div>
+    <div>
+      <h4 class="f-htit">Navigation</h4>
+      <ul class="f-links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="menu.html">Menu &amp; Prix</a></li>
+        <li><a href="commander.html">Commander</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="f-htit">Nos Créations</h4>
+      <ul class="f-links">
+        <li><a href="#rolls">Cinnamon Rolls</a></li>
+        <li><a href="#incontournables">Cheesecake</a></li>
+        <li><a href="#incontournables">Apple Pie</a></li>
+        <li><a href="#incontournables">Brownie &amp; Cookie</a></li>
+        <li><a href="#incontournables">Basboussa</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="f-bot">
+    <p class="f-copy">© 2024 Canel · Casablanca, Maroc · Tous droits réservés</p>
+    <p class="f-copy">Fait avec ❤️ et beaucoup de cannelle</p>
+  </div>
+</footer>
+
+<script>
+// Nav
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 50));
+function toggleNav() { document.getElementById('navL').classList.toggle('open'); }
+document.querySelectorAll('.nav-links a').forEach(a =>
+  a.addEventListener('click', () => document.getElementById('navL').classList.remove('open'))
+);
+// Reveal
+const obs = new IntersectionObserver(
+  entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); }),
+  { threshold: 0.1 }
+);
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

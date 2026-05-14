@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Commander — Canel Casablanca</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#F8F3EA;
+  --cream-d:#EDE4D3;
+  --cin:#8B4513;
+  --gold:#C9963B;
+  --gold-l:#E8C77A;
+  --brown:#2C1506;
+  --brown-m:#4A2208;
+  --tmid:#6B3A1F;
+  --font-h:'Playfair Display',Georgia,serif;
+  --font-b:'Lato',sans-serif;
+  --radius:12px;
+  --shadow:0 4px 24px rgba(44,21,6,.12);
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-b);background:var(--cream);color:var(--brown);min-height:100vh}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:18px 5%;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:background .35s,backdrop-filter .35s,box-shadow .35s;
+}
+nav.scrolled{
+  background:rgba(44,21,6,.88);
+  backdrop-filter:blur(14px);
+  box-shadow:0 2px 20px rgba(0,0,0,.25);
+}
+.logo{
+  font-family:var(--font-h);font-size:1.7rem;font-weight:700;
+  color:#fff;letter-spacing:.05em;text-decoration:none;
+}
+.logo span{color:var(--gold-l)}
+.nav-links{display:flex;gap:2.2rem;list-style:none}
+.nav-links a{
+  color:rgba(255,255,255,.85);text-decoration:none;
+  font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;
+  transition:color .2s;
+}
+.nav-links a:hover,.nav-links a.active{color:var(--gold-l)}
+.nav-cta{
+  background:var(--gold);color:#fff;padding:10px 22px;border-radius:50px;
+  font-size:.85rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  text-decoration:none;transition:background .2s,transform .2s;
+}
+.nav-cta:hover{background:var(--gold-l);transform:translateY(-1px)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.hamburger span{display:block;width:24px;height:2px;background:#fff;border-radius:2px;transition:.3s}
+.mobile-menu{
+  display:none;position:fixed;inset:0;background:rgba(44,21,6,.97);
+  z-index:99;flex-direction:column;align-items:center;justify-content:center;gap:2rem;
+}
+.mobile-menu.open{display:flex}
+.mobile-menu a{
+  color:#fff;text-decoration:none;font-family:var(--font-h);font-size:1.8rem;
+  transition:color .2s;
+}
+.mobile-menu a:hover{color:var(--gold-l)}
+.menu-close{
+  position:absolute;top:22px;right:5%;
+  font-size:2rem;color:#fff;cursor:pointer;background:none;border:none;
+}
+
+/* ── HERO BANNER ── */
+.page-hero{
+  background:var(--brown);
+  padding:130px 5% 70px;
+  text-align:center;
+  position:relative;overflow:hidden;
+}
+.page-hero::before,.page-hero::after{
+  content:'';position:absolute;border-radius:50%;
+  border:1px solid rgba(201,150,59,.12);
+}
+.page-hero::before{width:500px;height:500px;top:-200px;right:-150px}
+.page-hero::after{width:350px;height:350px;bottom:-150px;left:-100px}
+.page-hero h1{
+  font-family:var(--font-h);font-size:clamp(2rem,5vw,3rem);
+  color:#fff;font-weight:700;margin-bottom:12px;position:relative;z-index:1;
+}
+.page-hero h1 em{color:var(--gold-l);font-style:normal}
+.page-hero p{color:rgba(255,255,255,.65);font-size:1rem;position:relative;z-index:1}
+.breadcrumb{
+  display:flex;justify-content:center;gap:8px;
+  margin-bottom:18px;font-size:.8rem;letter-spacing:.1em;
+  text-transform:uppercase;position:relative;z-index:1;
+}
+.breadcrumb a{color:var(--gold-l);text-decoration:none}
+.breadcrumb span{color:rgba(255,255,255,.4)}
+
+/* ── LAYOUT ── */
+.form-wrapper{
+  max-width:800px;margin:0 auto;
+  padding:60px 5% 80px;
+}
+
+/* ── SECTION CARDS ── */
+.form-section{
+  background:#fff;border-radius:var(--radius);
+  box-shadow:var(--shadow);margin-bottom:28px;overflow:hidden;
+}
+.section-header{
+  background:var(--brown);padding:18px 28px;
+  display:flex;align-items:center;gap:14px;
+}
+.section-header .icon{font-size:1.4rem}
+.section-header h2{
+  font-family:var(--font-h);color:#fff;font-size:1.1rem;font-weight:600;
+}
+.section-header .subtitle{
+  color:rgba(255,255,255,.55);font-size:.8rem;
+  font-family:var(--font-b);font-weight:300;margin-top:2px;
+}
+.section-body{padding:28px}
+
+/* ── FORM FIELDS ── */
+.field-group{margin-bottom:20px}
+.field-group label{
+  display:block;font-size:.8rem;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:var(--tmid);margin-bottom:7px;
+}
+.field-group input,.field-group select,.field-group textarea{
+  width:100%;padding:13px 16px;
+  border:1.5px solid var(--cream-d);border-radius:8px;
+  font-family:var(--font-b);font-size:.95rem;color:var(--brown);
+  background:#fff;outline:none;transition:border-color .2s,box-shadow .2s;
+  appearance:none;
+}
+.field-group input:focus,.field-group select:focus,.field-group textarea:focus{
+  border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,150,59,.12);
+}
+.field-group select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238B4513' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;
+  padding-right:44px;cursor:pointer;
+}
+.fields-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+#addr-field{display:block}
+
+/* ── MODE TOGGLE ── */
+.mode-toggle{display:flex;gap:0;border:1.5px solid var(--cream-d);border-radius:8px;overflow:hidden}
+.mode-btn{
+  flex:1;padding:13px;text-align:center;cursor:pointer;
+  font-family:var(--font-b);font-size:.9rem;font-weight:700;
+  color:var(--tmid);background:#fff;border:none;
+  transition:background .2s,color .2s;letter-spacing:.04em;
+}
+.mode-btn.active{background:var(--brown);color:#fff}
+.mode-btn:first-child{border-right:1px solid var(--cream-d)}
+
+/* ── PRODUCT ROWS ── */
+.product-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 0;border-bottom:1px solid var(--cream-d);
+}
+.product-row:last-child{border-bottom:none}
+.product-info{flex:1}
+.product-name{font-weight:700;font-size:.95rem;color:var(--brown)}
+.product-price{font-size:.82rem;color:var(--gold);font-weight:700;margin-top:2px}
+.qty-control{
+  display:flex;align-items:center;gap:10px;
+}
+.qty-btn{
+  width:32px;height:32px;border-radius:50%;border:none;cursor:pointer;
+  font-size:1.1rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s,transform .1s;line-height:1;
+}
+.qty-btn.minus{background:var(--cream-d);color:var(--brown)}
+.qty-btn.plus{background:var(--cin);color:#fff}
+.qty-btn:hover{transform:scale(1.12)}
+.qty-btn:active{transform:scale(.94)}
+.qty-display{
+  min-width:28px;text-align:center;font-weight:700;
+  font-size:1rem;color:var(--brown);
+}
+
+/* ── ORDER SUMMARY ── */
+.summary-lines{margin-bottom:20px}
+.summary-line{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:9px 0;border-bottom:1px solid var(--cream-d);
+  font-size:.9rem;
+}
+.summary-line:last-child{border-bottom:none}
+.summary-line .item-name{color:var(--tmid)}
+.summary-line .item-price{font-weight:700;color:var(--brown)}
+.summary-empty{
+  text-align:center;padding:28px 0;
+  color:rgba(107,58,31,.45);font-size:.9rem;font-style:italic;
+}
+.divider{height:1px;background:var(--cream-d);margin:12px 0}
+.total-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 0 0;
+}
+.total-row .label{
+  font-family:var(--font-h);font-size:1rem;font-weight:600;color:var(--brown);
+}
+.total-row .amount{
+  font-family:var(--font-h);font-size:1.6rem;font-weight:700;color:var(--cin);
+}
+.delivery-note{
+  background:var(--cream);border-radius:8px;padding:10px 14px;
+  font-size:.8rem;color:var(--tmid);margin-top:12px;
+  display:none;
+}
+.delivery-note.show{display:flex;align-items:center;gap:8px}
+
+/* ── SUBMIT ── */
+.submit-btn{
+  width:100%;padding:18px;border:none;border-radius:50px;cursor:pointer;
+  background:linear-gradient(135deg,#25D366 0%,#1da851 100%);
+  color:#fff;font-family:var(--font-b);font-size:1.05rem;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  transition:transform .2s,box-shadow .2s,opacity .2s;
+  box-shadow:0 6px 24px rgba(37,211,102,.3);
+  margin-top:8px;
+}
+.submit-btn:hover:not(:disabled){
+  transform:translateY(-2px);box-shadow:0 10px 32px rgba(37,211,102,.4);
+}
+.submit-btn:active:not(:disabled){transform:translateY(0)}
+.submit-btn:disabled{opacity:.5;cursor:not-allowed}
+.submit-btn .wa-icon{font-size:1.2rem}
+.submit-note{
+  text-align:center;font-size:.78rem;color:var(--tmid);
+  margin-top:12px;line-height:1.6;
+}
+
+/* ── VALIDATION TOAST ── */
+.toast{
+  position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(100px);
+  background:var(--brown);color:#fff;padding:14px 28px;border-radius:50px;
+  font-size:.88rem;font-weight:700;z-index:999;
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1);
+  white-space:nowrap;box-shadow:0 8px 32px rgba(0,0,0,.3);
+}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* ── FOOTER ── */
+footer{
+  background:var(--brown);color:rgba(255,255,255,.65);
+  padding:50px 5% 28px;
+}
+.footer-inner{
+  max-width:1100px;margin:0 auto;
+  display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;
+  padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.08);
+}
+.footer-brand .logo{display:inline-block;margin-bottom:14px}
+.footer-brand p{font-size:.88rem;line-height:1.7;color:rgba(255,255,255,.5)}
+.footer-col h4{
+  font-family:var(--font-h);color:var(--gold-l);
+  font-size:.95rem;margin-bottom:16px;
+}
+.footer-col ul{list-style:none}
+.footer-col ul li{margin-bottom:9px}
+.footer-col ul li a{
+  color:rgba(255,255,255,.55);text-decoration:none;
+  font-size:.88rem;transition:color .2s;
+}
+.footer-col ul li a:hover{color:var(--gold-l)}
+.footer-bottom{
+  max-width:1100px;margin:0 auto;
+  padding-top:24px;
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:.78rem;color:rgba(255,255,255,.3);
+}
+.footer-bottom a{color:rgba(255,255,255,.4);text-decoration:none}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s ease}
+.reveal.vis{opacity:1;transform:none}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .nav-links,.nav-cta{display:none}
+  .hamburger{display:flex}
+  .fields-row{grid-template-columns:1fr}
+  .footer-inner{grid-template-columns:1fr;gap:28px}
+  .footer-bottom{flex-direction:column;gap:8px;text-align:center}
+}
+@media(max-width:480px){
+  .section-body{padding:20px 16px}
+  .product-row{gap:10px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="index.html" class="logo">Canel<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="commander.html" class="active">Commander</a></li>
+  </ul>
+  <a href="commander.html" class="nav-cta">Commander</a>
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="menu-close" id="menuClose">✕</button>
+  <a href="index.html">Accueil</a>
+  <a href="commander.html">Commander</a>
+</div>
+
+<!-- HERO BANNER -->
+<section class="page-hero">
+  <div class="breadcrumb">
+    <a href="index.html">Accueil</a>
+    <span>›</span>
+    <span style="color:var(--gold-l)">Commander</span>
+  </div>
+  <h1>Passer <em>Commande</em></h1>
+  <p>Composez votre sélection — nous vous confirmons par WhatsApp</p>
+</section>
+
+<!-- FORM WRAPPER -->
+<div class="form-wrapper">
+
+  <!-- CLIENT INFO -->
+  <div class="form-section reveal">
+    <div class="section-header">
+      <span class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D4A855" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="4"/><path d="M4 21v-1a8 8 0 0116 0v1"/></svg></span>
+      <div>
+        <h2>Vos Coordonnées</h2>
+        <div class="subtitle">Requis pour confirmer votre commande</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="fields-row">
+        <div class="field-group">
+          <label>Prénom & Nom *</label>
+          <input type="text" id="client-nom" placeholder="Ex: Yasmine Alaoui" required>
+        </div>
+        <div class="field-group">
+          <label>Téléphone *</label>
+          <input type="tel" id="client-tel" placeholder="Ex: 0612345678" required>
+        </div>
+      </div>
+      <div class="field-group">
+        <label>Mode de réception *</label>
+        <div class="mode-toggle">
+          <button class="mode-btn active" data-mode="livraison" id="btn-livraison"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:6px"><rect x="1" y="11" width="22" height="8" rx="1"/><path d="M5 11l2-6h10l2 6"/><circle cx="7" cy="19" r="2"/><circle cx="17" cy="19" r="2"/></svg>Livraison</button>
+          <button class="mode-btn" data-mode="retrait" id="btn-retrait"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:6px"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Retrait sur place</button>
+        </div>
+      </div>
+      <div class="field-group" id="addr-field">
+        <label>Adresse de livraison *</label>
+        <input type="text" id="client-adresse" placeholder="Ex: 12 Rue Ibn Batouta, Maarif, Casablanca">
+      </div>
+    </div>
+  </div>
+
+  <!-- CINNAMON ROLLS -->
+  <div class="form-section reveal">
+    <div class="section-header">
+      <span class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D4A855" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="2" fill="#D4A855"/></svg></span>
+      <div>
+        <h2>Cinnamon Rolls</h2>
+        <div class="subtitle">Pâte briochée, garniture généreuse, cuits à la commande</div>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <div class="product-row">
+        <div class="product-info">
+          <div class="product-name">Cream Cheese</div>
+          <div class="product-price">15 MAD / pièce</div>
+        </div>
+        <div class="qty-control">
+          <button class="qty-btn minus" data-product="cream-cheese">−</button>
+          <span class="qty-display" data-product="cream-cheese">0</span>
+          <button class="qty-btn plus" data-product="cream-cheese">+</button>
+        </div>
+      </div>
+
+      <div class="product-row">
+        <div class="product-info">
+          <div class="product-name">Caramel Beurre Salé</div>
+          <div class="product-price">15 MAD / pièce</div>
+        </div>
+        <div class="qty-control">
+          <button class="qty-btn minus" data-product="caramel">−</button>
+          <span class="qty-display" data-product="caramel">0</span>
+          <button class="qty-btn plus" data-product="caramel">+</button>
+        </div>
+      </div>
+
+      <div class="product-row">
+        <div class="product-info">
+          <div class="product-name">Chocolat</div>
+          <div class="product-price">14 MAD / pièce</div>
+        </div>
+        <div class="qty-control">
+          <button class="qty-btn minus" data-product="chocolat">−</button>
+          <span class="qty-display" data-product="chocolat">0</span>
+          <button class="qty-btn plus" data-product="chocolat">+</button>
+        </div>
+      </div>
+
+      <div class="product-row">
+        <div class="product-info">
+          <div class="product-name">Vanille</div>
+          <div class="product-price">14 MAD / pièce</div>
+        </div>
+        <div class="qty-control">
+          <button class="qty-btn minus" data-product="vanille">−</button>
+          <span class="qty-display" data-product="vanille">0</span>
+          <button class="qty-btn plus" data-product="vanille">+</button>
+        </div>
+      </div>
+
+      <div class="product-row">
+        <div class="product-info">
+          <div class="product-name">Café</div>
+          <div class="product-price">14 MAD / pièce</div>
+        </div>
+        <div class="qty-control">
+          <button class="qty-btn minus" data-product="cafe">−</button>
+          <span class="qty-display" data-product="cafe">0</span>
+          <button class="qty-btn plus" data-product="cafe">+</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- INCONTOURNABLES -->
+  <div class="form-section reveal">
+    <div class="section-header">
+      <span class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D4A855" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+      <div>
+        <h2>Les Incontournables</h2>
+        <div class="subtitle">Notre sélection de pâtisseries signature</div>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <div class="product-row">
+        <div class="product-info">
+          <div class="product-name">Cheesecake</div>
+          <div class="product-price">25 MAD / portion</div>
+        </div>
+        <div class="qty-control">
+          <button class="qty-btn minus" data-product="cheesecake">−</button>
+          <span class="qty-display" data-product="cheesecake">0</span>
+          <button class="qty-btn plus" data-product="cheesecake">+</button>
+        </div>
+      </div>
+
+      <div class="product-row">
+        <div class="product-info">
+          <div class="product-name">Apple Pie</div>
+          <div class="product-price">20 MAD / portion</div>
+        </div>
+        <div class="qty-control">
+          <button class="qty-btn minus" data-product="apple-pie">−</button>
+          <span class="qty-display" data-product="apple-pie">0</span>
+          <button class="qty-btn plus" data-product="apple-pie">+</button>
+        </div>
+      </div>
+
+      <div class="product-row">
+        <div class="product-info">
+          <div class="product-name">Basboussa</div>
+          <div class="product-price">15 MAD / pièce</div>
+        </div>
+        <div class="qty-control">
+          <button class="qty-btn minus" data-product="basboussa">−</button>
+          <span class="qty-display" data-product="basboussa">0</span>
+          <button class="qty-btn plus" data-product="basboussa">+</button>
+        </div>
+      </div>
+
+      <div class="product-row">
+        <div class="product-info">
+          <div class="product-name">Brownie</div>
+          <div class="product-price">14 MAD / pièce</div>
+        </div>
+        <div class="qty-control">
+          <button class="qty-btn minus" data-product="brownie">−</button>
+          <span class="qty-display" data-product="brownie">0</span>
+          <button class="qty-btn plus" data-product="brownie">+</button>
+        </div>
+      </div>
+
+      <div class="product-row">
+        <div class="product-info">
+          <div class="product-name">Cookie</div>
+          <div class="product-price">14 MAD / pièce</div>
+        </div>
+        <div class="qty-control">
+          <button class="qty-btn minus" data-product="cookie">−</button>
+          <span class="qty-display" data-product="cookie">0</span>
+          <button class="qty-btn plus" data-product="cookie">+</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RÉCAPITULATIF -->
+  <div class="form-section reveal">
+    <div class="section-header">
+      <span class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D4A855" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>
+      <div>
+        <h2>Récapitulatif</h2>
+        <div class="subtitle">Vérifiez votre commande avant envoi</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="summary-lines" id="summary-lines">
+        <div class="summary-empty" id="summary-empty">Aucun article sélectionné pour le moment.</div>
+      </div>
+      <div class="divider"></div>
+      <div id="delivery-line" style="display:block">
+        <div class="summary-line">
+          <span class="item-name">🚗 Frais de livraison</span>
+          <span class="item-price">20 MAD</span>
+        </div>
+        <div class="divider"></div>
+      </div>
+      <div class="total-row">
+        <span class="label">Total</span>
+        <span class="amount" id="total-display">0 MAD</span>
+      </div>
+      <div class="delivery-note" id="delivery-note">
+        <span>ℹ️</span>
+        <span>Frais de livraison de 20 MAD inclus. Paiement à la livraison.</span>
+      </div>
+
+      <button class="submit-btn" id="submit-btn" onclick="envoyerCommande()">
+        <span class="wa-icon">💬</span>
+        Envoyer la commande sur WhatsApp
+      </button>
+      <p class="submit-note">
+        Vous serez redirigé vers WhatsApp pour confirmer.<br>
+        Un message pré-rempli sera généré automatiquement.
+      </p>
+    </div>
+  </div>
+
+</div><!-- /form-wrapper -->
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="index.html" class="logo">Canel<span>.</span></a>
+      <p>Pâtisserie artisanale américaine à Casablanca.<br>Fait maison, avec passion.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="commander.html">Commander</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Informations</h4>
+      <ul>
+        <li><a href="#">Livraison : 20 MAD</a></li>
+        <li><a href="#">Retrait possible</a></li>
+        <li><a href="#">Paiement à la livraison</a></li>
+        <li><a href="#">Casablanca</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 Canel Casablanca — Tous droits réservés</span>
+    <a href="#">Made with ❤️ in Casa</a>
+  </div>
+</footer>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────────────
+const waNumber = '212600942946';
+
+// ── CATALOGUE ───────────────────────────────────────────────────
+const catalogue = {
+  'cream-cheese': { nom: 'Cinnamon Roll Cream Cheese',  prix: 15 },
+  'caramel':      { nom: 'Cinnamon Roll Caramel B.S.',   prix: 15 },
+  'chocolat':     { nom: 'Cinnamon Roll Chocolat',       prix: 14 },
+  'vanille':      { nom: 'Cinnamon Roll Vanille',        prix: 14 },
+  'cafe':         { nom: 'Cinnamon Roll Café',           prix: 14 },
+  'cheesecake':   { nom: 'Cheesecake',                   prix: 25 },
+  'apple-pie':    { nom: 'Apple Pie',                    prix: 20 },
+  'basboussa':    { nom: 'Basboussa',                    prix: 15 },
+  'brownie':      { nom: 'Brownie',                      prix: 14 },
+  'cookie':       { nom: 'Cookie',                       prix: 14 }
+};
+
+// ── STATE ────────────────────────────────────────────────────────
+const qtys = {};
+Object.keys(catalogue).forEach(k => qtys[k] = 0);
+let modeActuel = 'livraison';
+
+// Init: afficher livraison par défaut
+document.getElementById('delivery-note').classList.add('show');
+updateTotal();
+
+// ── NAV ─────────────────────────────────────────────────────────
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 50));
+nav.classList.add('scrolled'); // toujours scrolled sur page commande
+
+document.getElementById('hamburger').addEventListener('click', () =>
+  document.getElementById('mobileMenu').classList.add('open'));
+document.getElementById('menuClose').addEventListener('click', () =>
+  document.getElementById('mobileMenu').classList.remove('open'));
+
+// ── MODE TOGGLE ──────────────────────────────────────────────────
+document.querySelectorAll('.mode-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    modeActuel = btn.dataset.mode;
+    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const addrField = document.getElementById('addr-field');
+    const deliveryLine = document.getElementById('delivery-line');
+    const deliveryNote = document.getElementById('delivery-note');
+    if (modeActuel === 'livraison') {
+      addrField.style.display = 'block';
+      deliveryLine.style.display = 'block';
+      deliveryNote.classList.add('show');
+    } else {
+      addrField.style.display = 'none';
+      deliveryLine.style.display = 'none';
+      deliveryNote.classList.remove('show');
+    }
+    updateTotal();
+  });
+});
+
+// ── QTY CONTROLS ─────────────────────────────────────────────────
+document.querySelectorAll('.qty-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const id = btn.dataset.product;
+    if (btn.classList.contains('plus')) {
+      qtys[id]++;
+    } else {
+      if (qtys[id] > 0) qtys[id]--;
+    }
+    document.querySelector(`.qty-display[data-product="${id}"]`).textContent = qtys[id];
+    updateSummary();
+    updateTotal();
+  });
+});
+
+// ── SUMMARY ──────────────────────────────────────────────────────
+function updateSummary() {
+  const container = document.getElementById('summary-lines');
+  const empty = document.getElementById('summary-empty');
+  let html = '';
+  let hasItems = false;
+  Object.keys(catalogue).forEach(k => {
+    if (qtys[k] > 0) {
+      hasItems = true;
+      const sub = qtys[k] * catalogue[k].prix;
+      html += `<div class="summary-line">
+        <span class="item-name">${catalogue[k].nom} ×${qtys[k]}</span>
+        <span class="item-price">${sub} MAD</span>
+      </div>`;
+    }
+  });
+  if (hasItems) {
+    empty.style.display = 'none';
+    // Supprimer les anciennes lignes (pas l'empty)
+    container.querySelectorAll('.summary-line').forEach(el => el.remove());
+    container.insertAdjacentHTML('afterbegin', html);
+  } else {
+    container.querySelectorAll('.summary-line').forEach(el => el.remove());
+    empty.style.display = 'block';
+  }
+}
+
+// ── TOTAL ────────────────────────────────────────────────────────
+function updateTotal() {
+  let subtotal = 0;
+  Object.keys(catalogue).forEach(k => { subtotal += qtys[k] * catalogue[k].prix; });
+  const livraison = modeActuel === 'livraison' ? 20 : 0;
+  const total = subtotal + livraison;
+  document.getElementById('total-display').textContent = total + ' MAD';
+}
+
+// ── TOAST ────────────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+// ── VALIDATION ───────────────────────────────────────────────────
+function valider() {
+  const nom = document.getElementById('client-nom').value.trim();
+  const tel = document.getElementById('client-tel').value.trim();
+  const adresse = document.getElementById('client-adresse').value.trim();
+
+  if (!nom) { showToast('⚠️ Veuillez saisir votre nom.'); return false; }
+  if (!tel) { showToast('⚠️ Veuillez saisir votre téléphone.'); return false; }
+  if (modeActuel === 'livraison' && !adresse) {
+    showToast('⚠️ Veuillez saisir votre adresse de livraison.');
+    return false;
+  }
+  const total = Object.keys(catalogue).reduce((s, k) => s + qtys[k] * catalogue[k].prix, 0);
+  if (total === 0) {
+    showToast('🛒 Veuillez sélectionner au moins un article.');
+    return false;
+  }
+  return { nom, tel, adresse };
+}
+
+// ── ENVOI WHATSAPP ───────────────────────────────────────────────
+function envoyerCommande() {
+  const data = valider();
+  if (!data) return;
+
+  // Construction du message
+  let lignes = [];
+  lignes.push('🧁 *NOUVELLE COMMANDE CANEL*');
+  lignes.push('');
+  lignes.push('👤 *Client :* ' + data.nom);
+  lignes.push('📞 *Tél :* ' + data.tel);
+  lignes.push('📦 *Mode :* ' + (modeActuel === 'livraison' ? '🚗 Livraison' : '🏪 Retrait sur place'));
+  if (modeActuel === 'livraison' && data.adresse) {
+    lignes.push('📍 *Adresse :* ' + data.adresse);
+  }
+  lignes.push('');
+  lignes.push('🛒 *Détail commande :*');
+
+  let subtotal = 0;
+  Object.keys(catalogue).forEach(k => {
+    if (qtys[k] > 0) {
+      const sub = qtys[k] * catalogue[k].prix;
+      subtotal += sub;
+      lignes.push('  • ' + catalogue[k].nom + ' ×' + qtys[k] + ' = ' + sub + ' MAD');
+    }
+  });
+
+  lignes.push('');
+  lignes.push('💰 *Sous-total :* ' + subtotal + ' MAD');
+  if (modeActuel === 'livraison') {
+    lignes.push('🚗 *Livraison :* 20 MAD');
+    lignes.push('✅ *TOTAL :* ' + (subtotal + 20) + ' MAD');
+  } else {
+    lignes.push('✅ *TOTAL :* ' + subtotal + ' MAD');
+  }
+  lignes.push('');
+  lignes.push('_(Paiement à la ' + (modeActuel === 'livraison' ? 'livraison' : 'réception') + ')_');
+
+  const message = lignes.join('\n');
+  const url = 'https://wa.me/' + waNumber + '?text=' + encodeURIComponent(message);
+  window.open(url, '_blank');
+}
+
+// ── SCROLL REVEAL ────────────────────────────────────────────────
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); obs.unobserve(e.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
