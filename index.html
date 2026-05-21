@@ -419,6 +419,7 @@ ${articles.join('\n')}
 💰 *${total} MAD* (livraison 20 incluse)`;
 
     const url = `https://wa.me/212600942946?text=${encodeURIComponent(msg)}`;
+    fbq('track', 'Lead');
     window.open(url, '_blank');
   }
 </script>
